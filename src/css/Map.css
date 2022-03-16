@@ -9,9 +9,11 @@
   height: 20px;
   width: 20px;
   border-radius: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 
-.map .debug {
+.debug {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -23,7 +25,7 @@
       justify-content: space-around;
 }
 
-.map .debug .debugBtn {
+.debug .debugBtn {
   margin-bottom: 20px;
   padding: 3px 10px;
 }
