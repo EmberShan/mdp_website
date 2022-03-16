@@ -1,0 +1,29 @@
+.map{
+    // the floor images
+    .floor-img{
+        max-width:100%;
+        height:auto;
+        max-height:100%;
+    }
+
+    .marker{
+        //position
+        position: absolute;
+        // size
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+    }
+
+    //only for debugging 
+    .debug{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        .debugBtn{
+            margin-bottom: 20px;
+            padding: 3px 10px;
+        }
+    }
+    
+}

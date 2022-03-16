@@ -1,0 +1,17 @@
+body{
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+    width: 90vw;
+    margin: auto;
+    
+    .switchFloorBtn{
+        border: none;
+        outline: none;
+        background-color: black;
+        color: white;
+        padding: 20px;
+    }
+
+}
+
