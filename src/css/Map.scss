@@ -1,4 +1,4 @@
-.map{
+.map-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -10,18 +10,31 @@
     // margin and padding
     margin: 20px 0;
 
-    // images of the map
-    .floor-img{
-        max-height: 80vh;
-        width: auto;
+    .map{
+        // center everything 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
         max-width: 100%;
+        max-height: 100%;
+
+        // images of the map
+        .floor-img{
+            max-height: 100%;
+            width: auto;
+            max-width: 100%;
+        }
+        // dots on the map
+        .marker{
+            //position
+            position: absolute;
+            // translate so the center is at the tip of the marker
+            transform: translate(-50%, -100%);
+        }
     }
-    // dots on the map
-    .marker{
-        //position
-        position: absolute;
-        // translate so the center is at the tip of the marker
-        transform: translate(-50%, -100%);
-    }
+    
     
 }

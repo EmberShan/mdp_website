@@ -2,10 +2,10 @@ body{
     //center everything 
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: stretch;
     // sizing 
-    max-height: 100vh;
+    height: 100vh;
     width: auto;
     max-width: 100%;
     // padding & margin
@@ -18,7 +18,7 @@ body{
         outline: none;
         background-color: black;
         color: white;
-        padding: 20px;
+        padding: 10px;
     }
     button{
         max-height: 10vh;

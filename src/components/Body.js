@@ -15,9 +15,9 @@ const Body = ({}) => {
         <body>
             <Map toggled={toggled}/>
 
-            <button onClick={switchFloor} className="switchFloorBtn"> 
+            {/* <button onClick={switchFloor} className="switchFloorBtn"> 
                 {toggled ? "Switch to Second Floor" : "Switch to First Floor"} 
-            </button>
+            </button> */}
         </body>
         
     )
