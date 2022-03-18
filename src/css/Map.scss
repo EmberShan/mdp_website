@@ -20,12 +20,8 @@
     .marker{
         //position
         position: absolute;
-        // size
-        height: 20px;
-        width: 20px;
-        border-radius: 50%;
-        // translate so the center is at the center of the circle
-        transform: translate(-50%, -50%);
+        // translate so the center is at the tip of the marker
+        transform: translate(-50%, -100%);
     }
     
 }

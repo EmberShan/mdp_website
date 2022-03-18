@@ -13,13 +13,11 @@ const Body = ({}) => {
 
     return (
         <body>
-
             <Map toggled={toggled}/>
 
             <button onClick={switchFloor} className="switchFloorBtn"> 
                 {toggled ? "Switch to Second Floor" : "Switch to First Floor"} 
             </button>
-            
         </body>
         
     )

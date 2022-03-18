@@ -1,5 +1,7 @@
 import React from "react";
 import '../css/Map.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 // imgs of the map
 const img1 = require('./imgs/demo.png');
@@ -30,8 +32,12 @@ class Map extends React.Component {
             <div className="map" style={{position: 'relative'}}>
 
                 {/* dots / map markers */}
-                <span className="marker" style = {{ top: `${this.state.start[1]}%`, left: `${this.state.start[0]}%`, backgroundColor: 'red'}}></span>
-                <span className="marker" style = {{ top: `${this.state.dest[1]}%`, left: `${this.state.dest[0]}%`, backgroundColor: 'blue' }}></span>
+                <span className="marker" style = {{ top: `${this.state.start[1]}%`, left: `${this.state.start[0]}%`, color: 'red'}}>
+                    <i class="fa-solid fa-location-dot"></i>
+                </span>
+                <span className="marker" style = {{ top: `${this.state.dest[1]}%`, left: `${this.state.dest[0]}%`, color: 'blue' }}>
+                    <i class="fa-solid fa-location-dot"></i>
+                </span>
                 {/* img */}
                 <img className ="floor-img" onLoad={this.onImgLoad} src={this.props.toggled ? img1 : img2}/>
             
