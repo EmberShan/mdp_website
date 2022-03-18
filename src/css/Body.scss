@@ -3,13 +3,13 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
     // sizing 
     max-height: 100vh;
     width: auto;
     max-width: 100%;
     // padding & margin
-    padding: 20px 5px;
+    padding: 5px 5px;
     margin: 0;
     
     //switch floor button 
