@@ -1,5 +1,5 @@
 import React from "react";
-import '../css/Map.css';
+import '../css/Map.scss';
 import { scaleLinear } from "d3-scale";
 
 // imgs of the map

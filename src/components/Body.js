@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import '../css/Body.css';
+import '../css/Body.scss';
 import Map from './Map';
 
 const Body = ({}) => {
