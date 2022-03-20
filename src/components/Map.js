@@ -9,11 +9,6 @@ const img2 = require('./imgs/second_floor.png');
 // DEBUGGING; 
 // fake json data w/ location info; 
 const data = [{id: 1, x: 30, y: 40}]; // the slot machine is at (30 meters, 40 meters) in the room
-// linear scale functions
-// example: width of room is 80 meters and width of img is 227px
-const meterToPx = scaleLinear()
-    .domain([0, 80]) //meter
-    .range([0, 227]); //px
 
 class Map extends React.Component {
     constructor(props){
@@ -28,6 +23,7 @@ class Map extends React.Component {
 
         this.onImgLoad = this.onImgLoad.bind(this);
         this.move = this.move.bind(this);
+        this.meterToPx = this.meterToPx.bind(this);
     };
 
     // detect the size of the image & load the markers 
@@ -36,11 +32,22 @@ class Map extends React.Component {
             // fallback
             // need to load the markers after the API call in the future
             this.setState({start: [0, 0]});
-            this.setState({dest: [meterToPx(data[0].x), meterToPx(data[0].y)]});
+            // loading the markers based on the API location information at the start
+            // and change the location to pixels accordingly 
+            this.setState({dest: [this.meterToPx(data[0].x), this.meterToPx(data[0].y)]});
             
             console.log('w:' + this.state.sizeOfImg[0] + 'px', 'h:' + this.state.sizeOfImg[1] + 'px');
         });
     }
+
+    meterToPx = (valuInMeter) => {
+        // meter to px
+        const changeUnits = scaleLinear()
+            .domain([0, 80]) //meter`
+            .range( [0, this.state.sizeOfImg[0]] ); //px
+        return changeUnits(valuInMeter);
+    }
+
 
     // for DEBUGGING purposes; see if the marker can move dynamically  
     move(){
@@ -49,11 +56,11 @@ class Map extends React.Component {
 
         this.setState({
             // with constraints to the max size of the img
-            dest: [Math.min(this.state.sizeOfImg[0], Math.max(0, meterToPx(data[0].x))), 
-                Math.min(this.state.sizeOfImg[1], Math.max(0, meterToPx(data[0].y)))] 
+            dest: [Math.min(this.state.sizeOfImg[0], Math.max(0, this.meterToPx(data[0].x))), 
+                Math.min(this.state.sizeOfImg[1], Math.max(0, this.meterToPx(data[0].y)))] 
         });
 
-        console.log(this.state.dest[0], this.state.dest[1]);
+        console.log('destination x: ' + this.state.dest[0] + 'px, y: ' + this.state.dest[1] + 'px');
     }
 
     render(){
