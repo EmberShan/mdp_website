@@ -1,73 +1,87 @@
-export const data = {
-    "1": {
-        "x": 20, 
+export const data = [
+    {
+        "id": 1, 
+        "x": 23, 
         "y": 80, 
+        "gameName": "Pool"       
+    }, 
+    {
+        "id": 2, 
+        "x": 27, 
+        "y": 162, 
         "gameName": "Pool"
     }, 
-    "2": {
-        "x": 160, 
-        "y": 25, 
+    {
+        "id": 3, 
+        "x": 27, 
+        "y": 240, 
         "gameName": "Pool"
     }, 
-    "3": {
-        "x": 240, 
-        "y": 25, 
-        "gameName": "Pool"
-    }, 
-    "4": {
-        "x": 120, 
-        "y": 85, 
+    {
+        "id": 4, 
+        "x": 83, 
+        "y": 121, 
         "gameName": "Poker"
     }, 
-    "5": {
-        "x": 200, 
-        "y": 85, 
+    {
+        "id": 5, 
+        "x": 83, 
+        "y": 200, 
         "gameName": "Poker"
     }, 
-    "6": {
-        "x": 290, 
-        "y": 85, 
+    {
+        "id": 6, 
+        "x": 91, 
+        "y": 291, 
         "gameName": "Poker"
     }, 
-    "7": {
-        "x": 160, 
-        "y": 145, 
+    {
+        "id": 7, 
+        "x": 145, 
+        "y": 160, 
         "gameName": "Poker"
     }, 
-    "8": {
-        "x": 240, 
-        "y": 145, 
+    {
+        "id": 8, 
+        "x": 145, 
+        "y": 240, 
         "gameName": "Poker"
     }, 
-    "9": {
-        "x": 120, 
-        "y": 210, 
+    {
+        "id": 9, 
+        "x": 210, 
+        "y": 120, 
         "gameName": "Roulette"
     }, 
-    "10": {
-        "x": 200, 
-        "y": 210, 
-        "gameName": "Roulette"
-    }, 
-    "11": {
-        "x": 290, 
+    {
+        "id": 10, 
+        "x": 210, 
         "y": 200, 
         "gameName": "Roulette"
     }, 
-    "12": {
-        "x": 80, 
-        "y": 275, 
+    {
+        "id": 11, 
+        "x": 200, 
+        "y": 290, 
+        "gameName": "Roulette"
+    }, 
+    {
+        "id": 12, 
+        "x": 275, 
+        "y": 80, 
         "gameName": "Blackjack"
     }, 
-    "13": {
-        "x": 160, 
-        "y": 275, 
+    {
+        "id": 13, 
+        "x": 275, 
+        "y": 160, 
         "gameName": "Blackjack"
     }, 
-    "14": {
-        "x": 240, 
-        "y": 275, 
+    {
+        "id": 14, 
+        "x": 275, 
+        "y": 240, 
         "gameName": "Blackjack"
     } 
     
-}
+]
