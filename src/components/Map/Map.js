@@ -1,14 +1,14 @@
 import React from "react";
-import '../css/Map.scss';
-import { scaleLinear } from "d3-scale";
+import './Map.scss';
 
 // imgs of the map
-const img1 = require('./imgs/demo.png');
-const img2 = require('./imgs/second_floor.png');
+const img1 = require('../../imgs/demo.png');
+const img2 = require('../../imgs/second_floor.png');
 
 // DEBUGGING; 
 // fake json data w/ location info; 
-const data = [{id: 1, x: 30, y: 40}]; // the slot machine is at (30 meters, 40 meters) in the room
+// import data from '../data/location';
+const data = [{id: '1', x: 20, y: 30}];
 
 class Map extends React.Component {
     constructor(props){
@@ -17,13 +17,13 @@ class Map extends React.Component {
             // coordinates of the markers; for now there are only two
             start: [0, 0],
             dest: [0, 0],
+            slotMachine: {}, 
             // size of img
             sizeOfImg: [0, 0], // [width, height]
         };
 
         this.onImgLoad = this.onImgLoad.bind(this);
         this.move = this.move.bind(this);
-        this.meterToPx = this.meterToPx.bind(this);
     };
 
     // detect the size of the image & load the markers 
@@ -34,19 +34,14 @@ class Map extends React.Component {
             this.setState({start: [0, 0]});
             // loading the markers based on the API location information at the start
             // and change the location to pixels accordingly 
-            this.setState({dest: [this.meterToPx(data[0].x), this.meterToPx(data[0].y)]});
+            this.setState({dest: [data[0].x, data[0].y]});
             
             console.log('w:' + this.state.sizeOfImg[0] + 'px', 'h:' + this.state.sizeOfImg[1] + 'px');
         });
     }
 
-    meterToPx = (valuInMeter) => {
-        // meter to px
-        const changeUnits = scaleLinear()
-            .domain([0, 80]) //meter`
-            .range( [0, this.state.sizeOfImg[0]] ); //px
-        return changeUnits(valuInMeter);
-    }
+    // for user location in the future 
+    // 
 
 
     // for DEBUGGING purposes; see if the marker can move dynamically  
@@ -56,8 +51,8 @@ class Map extends React.Component {
 
         this.setState({
             // with constraints to the max size of the img
-            dest: [Math.min(this.state.sizeOfImg[0], Math.max(0, this.meterToPx(data[0].x))), 
-                Math.min(this.state.sizeOfImg[1], Math.max(0, this.meterToPx(data[0].y)))] 
+            dest: [Math.min(this.state.sizeOfImg[0], Math.max(0, data[0].x)), 
+                Math.min(this.state.sizeOfImg[1], Math.max(0, data[0].y))] 
         });
 
         console.log('destination x: ' + this.state.dest[0] + 'px, y: ' + this.state.dest[1] + 'px');

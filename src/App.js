@@ -1,5 +1,5 @@
 import { buildQueries, getByPlaceholderText } from "@testing-library/react";
-import Body from "./components/Body";
+import Body from "./components/Body/Body";
 
 const App = () =>{
   return (

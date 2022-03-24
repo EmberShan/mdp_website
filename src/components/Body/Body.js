@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
-import '../css/Body.scss';
-import Map from './Map';
+import './Body.scss';
+import Map from '../Map/Map';
 
 const Body = ({}) => {
     const [toggled, setToggled] = useState(true)
