@@ -5,24 +5,34 @@ import './Map.scss';
 // fake json data w/ location info; 
 import {data} from '../data/location';
 
+import {APIcall} from '../data/APIcall'; 
+
 // imgs of the map
 const img1 = require('../../imgs/demo.png');
 const img2 = require('../../imgs/second_floor.png');
 
 
 const Map = (props) => {
-    const [start, setStart] = useState([0, 0]); 
-    const [sizeOfImg, setSizeOfImg] = useState([0, 0]); 
+    const [start, setStart] = useState([0, 0]); //x, y
+    const [sizeOfImg, setSizeOfImg] = useState([0, 0]); //width, height 
+    const [mounted, setMounted] = useState(false); // for api call
+    
+    if(!mounted){
+        console.log("fetching API data..."); 
+        const d = APIcall();
+        console.log(d); 
+    }
 
+    // after fetching the API data
+    useEffect(() =>{
+        setMounted(true); 
+    },[])
 
     // detect the size of the image & load the markers 
     const onImgLoad = ({ target: img }) => {
-        const { offsetHeight, offsetWidth } = img;
-        setSizeOfImg( [offsetWidth, offsetHeight] ); 
-        console.log(setSizeOfImg); 
+        const { offsetWidth,  offsetHeight} = img;
+        setSizeOfImg( [offsetWidth,  offsetHeight] ); 
     }
-
-    // for user location in the future 
 
 
     // for DEBUGGING purposes; see if the marker can move dynamically  
@@ -33,6 +43,7 @@ const Map = (props) => {
                 Math.min(sizeOfImg[1], Math.max(0, start[1]+30))] 
         );
 
+        console.log("size of image is: " + sizeOfImg); 
         console.log('destination x: ' + start[0] + 'px, y: ' + start[1] + 'px');
     }
     
