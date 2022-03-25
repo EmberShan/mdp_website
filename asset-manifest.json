@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/mdp_website/static/css/main.8822e34e.css",
-    "main.js": "/mdp_website/static/js/main.88d37206.js",
+    "main.js": "/mdp_website/static/js/main.df462503.js",
     "static/js/787.226f4826.chunk.js": "/mdp_website/static/js/787.226f4826.chunk.js",
     "static/media/second_floor.png": "/mdp_website/static/media/second_floor.0f88db83444566106d9a.png",
     "static/media/fa-solid-900.ttf": "/mdp_website/static/media/fa-solid-900.6aef0a3f12850e081374.ttf",
@@ -15,11 +15,11 @@
     "static/media/fa-v4compatibility.woff2": "/mdp_website/static/media/fa-v4compatibility.2e77423e3ed431908eda.woff2",
     "index.html": "/mdp_website/index.html",
     "main.8822e34e.css.map": "/mdp_website/static/css/main.8822e34e.css.map",
-    "main.88d37206.js.map": "/mdp_website/static/js/main.88d37206.js.map",
+    "main.df462503.js.map": "/mdp_website/static/js/main.df462503.js.map",
     "787.226f4826.chunk.js.map": "/mdp_website/static/js/787.226f4826.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8822e34e.css",
-    "static/js/main.88d37206.js"
+    "static/js/main.df462503.js"
   ]
 }
