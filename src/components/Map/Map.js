@@ -4,8 +4,7 @@ import './Map.scss';
 // DEBUGGING; 
 // fake json data w/ location info; 
 import {data} from '../data/location';
-
-import {APIcall} from '../data/APIcall'; 
+// import {APIcall} from '../data/APIcall'; 
 
 // imgs of the map
 const img1 = require('../../imgs/demo.png');
@@ -19,8 +18,15 @@ const Map = (props) => {
     
     if(!mounted){
         console.log("fetching API data..."); 
-        const d = APIcall();
-        console.log(d); 
+        fetch('https://cors-anywhere.herokuapp.com/https://mdpcasinoapi.azurewebsites.net/api/banks')
+            .then((response) => {
+                const d = response.json(); 
+                console.log(d); 
+            })
+            .catch((err) => {
+                console.log(err.message);
+        });
+
     }
 
     // after fetching the API data

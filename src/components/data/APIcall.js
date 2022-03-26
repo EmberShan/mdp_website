@@ -3,7 +3,7 @@ export const APIcall = () => {
     //  fetching api using async/await
     const fetchData = async() => {
 
-        const response = await fetch('https://api.api-ninjas.com/v1/cats?name=abyssinian');
+        const response = await fetch('https://mdpcasinoapi.azurewebsites.net/api/banks');
         const data = await response.json();
 
         if (!response.ok) {
@@ -11,7 +11,7 @@ export const APIcall = () => {
             throw new Error(message);
         }
 
-        console.log(data); 
+        console.log("API data here" + data); 
         return data;
     }
 
