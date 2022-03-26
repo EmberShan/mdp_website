@@ -3,36 +3,16 @@ import './Map.scss';
 
 // DEBUGGING; 
 // fake json data w/ location info; 
-import {data} from '../data/location';
-// import {APIcall} from '../data/APIcall'; 
+import SlotMachine from '../SlotMachine/index'; 
 
 // imgs of the map
 const img1 = require('../../imgs/demo.png');
 const img2 = require('../../imgs/second_floor.png');
 
-
 const Map = (props) => {
     const [start, setStart] = useState([0, 0]); //x, y
     const [sizeOfImg, setSizeOfImg] = useState([0, 0]); //width, height 
-    const [mounted, setMounted] = useState(false); // for api call
     
-    if(!mounted){
-        console.log("fetching API data..."); 
-        fetch('https://cors-anywhere.herokuapp.com/https://mdpcasinoapi.azurewebsites.net/api/banks')
-            .then((response) => {
-                const d = response.json(); 
-                console.log(d); 
-            })
-            .catch((err) => {
-                console.log(err.message);
-        });
-
-    }
-
-    // after fetching the API data
-    useEffect(() =>{
-        setMounted(true); 
-    },[])
 
     // detect the size of the image & load the markers 
     const onImgLoad = ({ target: img }) => {
@@ -65,14 +45,7 @@ const Map = (props) => {
                     <i class="fa-solid fa-location-dot"></i>
                 </span>
 
-                {/* mapping all the slot machines from json data (../data/location.js) */}
-                {data.map( (d) => (
-                    <span key={d.id} className="slotMachine marker"
-                        style={{ left: `${d.x}px`, top: `${d.y}px`, color: '#F7A072' }}
-                    > 
-                        <i class="fa-solid fa-location-dot"></i> 
-                    </span>
-                )) }
+                <SlotMachine />
 
                 {/* img */}
                 <img className ="floor-img" onLoad={onImgLoad} src={props.toggled ? img1 : img2}/>
