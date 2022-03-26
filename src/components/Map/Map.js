@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from "react";
 import './Map.scss';
 
-// DEBUGGING; 
-// fake json data w/ location info; 
+// displaying slot machine markers 
 import SlotMachine from '../SlotMachine/index'; 
 
 // imgs of the map
