@@ -40,7 +40,13 @@ const Map = (props) => {
             <div className="map">
 
                 {/* dots / map markers */}
-                <span className="marker" style = {{ left: `${start[0]}px`, top: `${start[1]}px`, color: 'red'}}>
+                <span className="marker" style = {{ fontSize: '2rem', left: `${start[0]}px`, top: `${start[1]}px`, color: 'red'}}>
+                    <i class="fa-solid fa-location-dot"></i>
+                </span>
+
+                <span className="marker pointOfInterest" 
+                    // onClick={}
+                    style = {{ fontSize: '2rem', left: '10px', top: '70%', color: 'orange'}}>
                     <i class="fa-solid fa-location-dot"></i>
                 </span>
 

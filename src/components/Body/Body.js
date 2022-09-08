@@ -16,17 +16,26 @@ const Body = ({ }) => {
         <body>
 
             {/* fixed */}
-            <span className='searchBarWrapper'>
-                <input type="text" placeholder="search for a location..." />
-                <button>
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
+            <span className='searchBar'>
+                <span className='searchBarWrapper'>
+                    <input type="text" placeholder="search for a location..." />
+                    <button>
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </span>
+                {/* popular games */}
+                <span className='dropdownMenu'>
+                    <span> <p> Poker </p> </span>
+                    <span> <p> BlackJack </p> </span>
+                    <span> <p> American Roulette </p> </span>
+                    <span> <p> Game King </p> </span>
+                </span>
             </span>
 
             <Map toggled={toggled} />
-            
+
             {/* fixed button group */}
-            <span className='btnWrapper'>
+            {/* <span className='btnWrapper'>
                 <span className='flootBtn'>
                     <button>
                         2F
@@ -37,7 +46,7 @@ const Body = ({ }) => {
                 </span>
 
                 <button></button>
-            </span>
+            </span> */}
 
             {/* <button onClick={switchFloor} className="switchFloorBtn"> 
                 {toggled ? "Switch to Second Floor" : "Switch to First Floor"} 
