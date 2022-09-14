@@ -1,9 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import './Map.scss';
-import { Line } from 'react-lineto';
+import LineTo from 'react-lineto';
 
 // displaying slot machine markers 
 import SlotMachine from '../SlotMachine/index';
+
+import { anchorPoints } from "../../API/fakedata";
+
 // imgs of the map
 const img1 = require('../../imgs/demo.png');
 const img2 = require('../../imgs/second_floor.png');
@@ -14,7 +17,7 @@ const Map = (props) => {
     const [sizeOfImg, setSizeOfImg] = useState([0, 0]); //width, height 
     const [posOfImg, setPosOfImg] = useState([0, 0]); //posX, posY 
 
-    const imgRef = useRef();
+
 
     // detect the size of the image & load the markers 
     const onImgLoad = ({ target: img }) => {
@@ -27,10 +30,6 @@ const Map = (props) => {
     //     setPosOfImg([mapID.current.offsetLeft,mapID.current.offsetTop]);
     //     console.log("position: ", posOfImg); 
     // }, []); 
-
-    const clicked = () => {
-
-    }
 
 
     // for DEBUGGING purposes; see if the marker can move dynamically  
@@ -57,25 +56,39 @@ const Map = (props) => {
                     <i class="fa-solid fa-location-pin"></i>
                 </span>
 
-                <span className="marker pointOfInterest"
-                    onClick={clicked}
-                    style={{ fontSize: '2rem', left: '10px', top: '70%', color: '#009BF5' }}>
-                    <i class="fa-solid fa-location-pin"></i>
-                </span>
-                {/* <Line 
-                    x0={0+posOfImg[0]} y0={0+posOfImg[1]} 
-                    x1={10+posOfImg[0]} y1={10+posOfImg[1]} /> */}
 
+                {/* for drawing the paths; get the points from API 
+                and map them out on the app */}
+                {anchorPoints.map((pt, index) => {
+                    return (
+                        <span
+                            key={index}
+                            className={`${pt.name} anchor`}
+                            style={{
+                                left: `${pt.x}%`, 
+                                top: `${pt.y}%`, 
+                                backgroundColor: 'red', 
+                                width: '5px', 
+                                height: '5px', 
+                                zIndex: '2', 
+                            }}
+                        ></span>
+                    )
+                })}
 
-                <div className="popover">
-                    <button> Navigate </button>
-                </div>
+                <LineTo
+                    className="path"
+                    from="pt1" to="pt3"
+                    borderColor='#F7A072' borderWidth='6px' zIndex={0}
+                />
+
+                {/* ----------------------------- */}
 
                 <SlotMachine />
 
                 {/* img */}
                 <img className="floor-img"
-                onLoad={onImgLoad} src={props.toggled ? img1 : img2} />
+                    onLoad={onImgLoad} src={props.toggled ? img1 : img2} />
 
             </div>
 

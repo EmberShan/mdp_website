@@ -33,34 +33,11 @@
       position: absolute;
       // translate so the center is at the tip of the marker
       transform: translate(-50%, -100%);
+      z-index: 1;
     }
-  }
 
-  .popover {
-    width: 100vw;
-    height: 200px;
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
-    border-radius: 20px 20px 0 0;
-
-    display: flex; 
-    justify-content: center;
-    align-items: center;
-
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
-    background-color: white;
-
-    button {
-      background-color: #009bf5;
-      outline: none;
-      border: none;
-      padding: 1rem 2rem;
-      color: white;
-      font-weight: bold;
-      font-size: 1.2rem;
-      border-radius: 5px;
+    .anchor{
+      position: absolute;
     }
   }
 }

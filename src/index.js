@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
+// add some changes for gh-pages
 ReactDOM.render(
   <React.StrictMode>
     <App />

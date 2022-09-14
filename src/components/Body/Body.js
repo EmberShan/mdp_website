@@ -2,14 +2,25 @@ import React from 'react';
 import { useState } from 'react';
 import './Body.scss';
 import Map from '../Map/Map';
+import { useRecoilState } from 'recoil';
+import { isDesSelected, whichDestination } from '../../recoil/atoms';
 
 // wrapping everything in the screen 
 const Body = ({ }) => {
-    const [toggled, setToggled] = useState(true)
+    const [toggled, setToggled] = useState(true);
+    const [isSelected, setIsSelected] = useRecoilState(isDesSelected);
+    const [whichDes, setWhichDes] = useRecoilState(whichDestination);
 
     const switchFloor = () => {
         console.log(toggled);
         setToggled((state) => (state === true ? false : true));
+    }
+
+    const navigate = () => {
+
+    }
+    const close = () => {
+        setIsSelected(false); 
     }
 
     return (
@@ -33,6 +44,20 @@ const Body = ({ }) => {
             </span>
 
             <Map toggled={toggled} />
+
+            <div className={`${isSelected ? `` : `hidden`} popover`}>
+                <div className='desInfo'>
+                    <h3> BankId: {whichDes} </h3>
+                    <p> 0.4 m  </p>
+                    <p> vacant  </p>
+                </div>
+
+                <a className='closeBtn' onClick={close}>
+                    <span></span>
+                    <span></span>
+                </a>
+                <button className='navigateBtn' onClick={navigate}> Navigate </button>
+            </div>
 
             {/* fixed button group */}
             {/* <span className='btnWrapper'>
