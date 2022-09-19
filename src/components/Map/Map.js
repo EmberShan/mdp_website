@@ -5,7 +5,7 @@ import LineTo from 'react-lineto';
 // displaying slot machine markers 
 import SlotMachine from '../SlotMachine/index';
 
-import { anchorPoints } from "../../API/fakedata";
+import { anchorPoints, paths } from "../../API/fakedata";
 
 // imgs of the map
 const img1 = require('../../imgs/demo.png');
@@ -18,6 +18,7 @@ const Map = (props) => {
     const [posOfImg, setPosOfImg] = useState([0, 0]); //posX, posY 
 
 
+    const [paths, setPaths] = useState([]); //posX, posY 
 
     // detect the size of the image & load the markers 
     const onImgLoad = ({ target: img }) => {
@@ -25,12 +26,9 @@ const Map = (props) => {
         setSizeOfImg([offsetWidth, offsetHeight]);
     }
 
-    // useEffect(() => {
-    //     const mapID = document.getElementById("map");
-    //     setPosOfImg([mapID.current.offsetLeft,mapID.current.offsetTop]);
-    //     console.log("position: ", posOfImg); 
-    // }, []); 
-
+    useEffect(() => {
+        setPaths(props.listOfPaths); 
+    }, [props.listOfPaths]); 
 
     // for DEBUGGING purposes; see if the marker can move dynamically  
     const move = () => {
@@ -59,7 +57,7 @@ const Map = (props) => {
 
                 {/* for drawing the paths; get the points from API 
                 and map them out on the app */}
-                {anchorPoints.map((pt, index) => {
+                {props.points.map((pt, index) => {
                     return (
                         <span
                             key={index}
@@ -76,11 +74,20 @@ const Map = (props) => {
                     )
                 })}
 
-                <LineTo
-                    className="path"
-                    from="pt1" to="pt3"
-                    borderColor='#F7A072' borderWidth='6px' zIndex={0}
-                />
+
+                {paths.map((p, index) => {
+                    console.log("listofpaths ****** ", paths)
+                    console.log("path ****** ", p)
+                    return (
+                        <LineTo
+                            key={index}
+                            className="path"
+                            from={p[0]} to={p[1]}
+                            borderColor='#F7A072' borderWidth={6} zIndex={0}
+                        />
+                    )
+                })}
+
 
                 {/* ----------------------------- */}
 
@@ -94,7 +101,7 @@ const Map = (props) => {
 
             {/* DEBUGGING */}
             <button onClick={move} style={{ padding: '10px' }}> move user location </button>
-
+                
         </div>
     )
 

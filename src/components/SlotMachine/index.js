@@ -14,7 +14,6 @@ const SlotMachine = () => {
 
     const handleClick = (event, id) => {
         setWhichDes(id); 
-        console.log(id); 
         setIsSelected(true); 
     }; 
 
