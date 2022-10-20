@@ -5,18 +5,16 @@ import LineTo from 'react-lineto';
 // displaying slot machine markers 
 import SlotMachine from '../SlotMachine/index';
 
-import { anchorPoints, paths } from "../../API/fakedata";
-
 // imgs of the map
 const img1 = require('../../imgs/demo.png');
 const img2 = require('../../imgs/second_floor.png');
 
 
 const Map = (props) => {
-    const [start, setStart] = useState([0, 0]); //x, y
-    const [sizeOfImg, setSizeOfImg] = useState([0, 0]); //width, height 
-    const [posOfImg, setPosOfImg] = useState([0, 0]); //posX, posY 
+    const [startX, setStartX] = useState(0); //x of user location 
+    const [startY, setStartY] = useState(0); //y of user location 
 
+    const [sizeOfImg, setSizeOfImg] = useState([0, 0]); //width, height 
 
     const [paths, setPaths] = useState([]); //posX, posY 
 
@@ -27,20 +25,23 @@ const Map = (props) => {
     }
 
     useEffect(() => {
-        setPaths(props.listOfPaths); 
-    }, [props.listOfPaths]); 
+        setPaths(props.listOfPaths);
+    }, [props.listOfPaths]);
 
-    // for DEBUGGING purposes; see if the marker can move dynamically  
-    const move = () => {
-        setStart(
-            // with constraints to the max size of the img
-            [Math.min(sizeOfImg[0], Math.max(0, start[0] + 20)),
-            Math.min(sizeOfImg[1], Math.max(0, start[1] + 30))]
-        );
 
-        console.log("size of image is: " + sizeOfImg);
-        console.log('destination x: ' + start[0] + 'px, y: ' + start[1] + 'px');
-    }
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setStartX(
+                Math.min(sizeOfImg[0], Math.max(0, startX + 20))
+            )
+            setStartY(
+                Math.min(sizeOfImg[1], Math.max(0, startY + 20))
+            )
+            console.log("updating... X:" + startX + " Y: " + startY)
+            console.log(sizeOfImg)
+        }, 1000);
+        return () => clearInterval(interval);
+    }, [startX, startY, sizeOfImg]);
 
 
     return (
@@ -48,12 +49,11 @@ const Map = (props) => {
 
             {/* this div is to limit the markers within the map img */}
             <div className="map" id='mapID'>
-
+            
                 {/* dots / map markers */}
-                <span className="marker" style={{ fontSize: '2rem', left: `${start[0]}px`, top: `${start[1]}px`, color: 'red' }}>
+                <span className="marker" style={{ fontSize: '2rem', left: `${startX}px`, top: `${startY}px`, color: 'red' }}>
                     <i class="fa-solid fa-location-pin"></i>
                 </span>
-
 
                 {/* for drawing the paths; get the points from API 
                 and map them out on the app */}
@@ -63,17 +63,16 @@ const Map = (props) => {
                             key={index}
                             className={`${pt.name} anchor`}
                             style={{
-                                left: `${pt.x}%`, 
-                                top: `${pt.y}%`, 
-                                backgroundColor: 'red', 
-                                width: '5px', 
-                                height: '5px', 
-                                zIndex: '2', 
+                                left: `${pt.x}%`,
+                                top: `${pt.y}%`,
+                                backgroundColor: 'red',
+                                width: '5px',
+                                height: '5px',
+                                zIndex: '2',
                             }}
                         ></span>
                     )
                 })}
-
 
                 {paths.map((p, index) => {
                     console.log("listofpaths ****** ", paths)
@@ -88,9 +87,8 @@ const Map = (props) => {
                     )
                 })}
 
-
                 {/* ----------------------------- */}
-
+                {/* all the codes about slot machines are in the SlotMachine folder */}
                 <SlotMachine />
 
                 {/* img */}
@@ -99,9 +97,6 @@ const Map = (props) => {
 
             </div>
 
-            {/* DEBUGGING */}
-            <button onClick={move} style={{ padding: '10px' }}> move user location </button>
-                
         </div>
     )
 
