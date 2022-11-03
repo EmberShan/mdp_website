@@ -18,27 +18,151 @@ const Map = (props) => {
 
     const [paths, setPaths] = useState([]); //posX, posY 
 
+
     // detect the size of the image & load the markers 
     const onImgLoad = ({ target: img }) => {
         const { offsetWidth, offsetHeight } = img;
         setSizeOfImg([offsetWidth, offsetHeight]);
-    }
-
+    };
     useEffect(() => {
-        setPaths(props.listOfPaths);
-    }, [props.listOfPaths]);
+        console.log("size of image", sizeOfImg);
+    }, [sizeOfImg]);
+
+    // put request 
+    const [id, setId] = useState(1);
+    const [endX, setEndX] = useState(0); //x of user location 
+    const [endY, setEndY] = useState(0); //y of user location 
+
+    const [input, setInput] = useState({
+        device_id: 0,
+        start_x: 0,
+        start_y: 0,
+        end_x: 0,
+        end_y: 0
+    })
+    const [putResult, setPutResult] = useState(false);
+    // result containing points of the paths
+    const [result, setResult] = useState([]);
+    const [mounted, setMounted] = useState(false);
+    // the array that is used to draw the lines 
+    const [lines, setLines] = useState([]);
+
+    // ----------- requesting paths (PUT) -----------
+    const requestPath = (event, endX, endY) => {
+        setMounted(false);
+        setInput({
+            device_id: id,
+            start_x: startX,
+            start_y: startY,
+            end_x: endX,
+            end_y: endY
+        });
+    };
+    useEffect(() => {
+        console.log("put request", input);
+        putData();
+    }, [input]);
+    async function putData() {
+        try {
+            await fetch(`https://mdpcasinoapi.azurewebsites.net/api/navigation/${id}`, {
+                method: "put",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(input),
+            });
+            setPutResult(!putResult);
+        } catch (err) {
+            console.log(putResult);
+        }
+    };
+
+    // ----------- fetch the path data -----------
+    useEffect(() => {
+        console.log("fetching path data...")
+        pathData()
+            .then((pathData) => {
+                cleanPathData(pathData);
+            })
+            .catch((error => {
+                console.log(error);
+            }));
+    }, [putResult]);
+    async function pathData() {
+        const response = await fetch(`https://mdpcasinoapi.azurewebsites.net/api/route/${id}`);
+        const fetchedData = await response.json();
+        if (!response.ok) {
+            return response.statusText;
+        }
+        return fetchedData;
+    }; 
+
+    // ----------- clean up the path data from backend -----------
+    const cleanPathData = (arr) => {
+        const pathPoints = [];
+        arr.forEach((a) => {
+            pathPoints.push(a.split(" "));
+        });
+        console.log("********start", pathPoints);
+        var tempLines = [];
+        // var obj = { x: 0, y: 0, w: 0, h: 0 }; //x and y are start point coord
+        for (let i = 1; i < pathPoints.length; i++) {
+            const obj = { x: 0, y: 0, w: 0, h: 0 }; //x and y are start point coord
+            console.log("start and end points", pathPoints[i - 1], pathPoints[i])
+            // start point is pathPoints[i-1] and end point is pathPoints[i]
+            const x1 = pathPoints[i - 1][0];
+            const y1 = pathPoints[i - 1][1];
+            const x2 = pathPoints[i][0];
+            const y2 = pathPoints[i][1];
+
+            // and set height and width accordingly 
+            obj.x = x1 / 6.38; obj.y = y1 / 6.68;
+            // determine if the line is horizontal or vertical 
+            if (x2 - x1 === 0) {
+                obj.h = (y2 - y1) / 6.68;
+                obj.w = 1;
+            }
+            else if (y2 - y1 === 0) {
+                obj.h = 1;
+                obj.w = (x2 - x1) / 6.38;
+            };
+            console.log("******* the calculated line", obj)
+            tempLines.push(obj);
+            console.log("******* lines array for rendering", tempLines);
+        }
+        setLines(tempLines);
+    };
+    useEffect(() => {
+        setMounted(true);
+        console.log("lines", lines);
+    }, [lines]);
 
 
+    // -------- user location --------
+    // for fetching user location data from the API 
+    async function userData() {
+        const response = await fetch(`https://mdpcasinoapi.azurewebsites.net/api/users/1`);
+        const fetchedData = await response.json();
+        if (!response.ok) {
+            return response.statusText;
+        }
+        return fetchedData;
+    }
     useEffect(() => {
         const interval = setInterval(() => {
-            setStartX(
-                Math.min(sizeOfImg[0], Math.max(0, startX + 20))
-            )
-            setStartY(
-                Math.min(sizeOfImg[1], Math.max(0, startY + 20))
-            )
-            console.log("updating... X:" + startX + " Y: " + startY)
-            console.log(sizeOfImg)
+            userData()
+                .then((userData) => {
+                    setStartX(
+                        Math.min(sizeOfImg[0], Math.max(0, userData.currentX))
+                    )
+                    setStartY(
+                        Math.min(sizeOfImg[1], Math.max(0, userData.currentY))
+                    )
+                    console.log(startX, startY);
+                })
+                .catch((error => {
+                    console.log(error);
+                }));
         }, 1000);
         return () => clearInterval(interval);
     }, [startX, startY, sizeOfImg]);
@@ -49,51 +173,39 @@ const Map = (props) => {
 
             {/* this div is to limit the markers within the map img */}
             <div className="map" id='mapID'>
-            
+
                 {/* dots / map markers */}
                 <span className="marker" style={{ fontSize: '2rem', left: `${startX}px`, top: `${startY}px`, color: 'red' }}>
-                    <i class="fa-solid fa-location-pin"></i>
+                    <i className="fa-solid fa-location-pin"></i>
                 </span>
 
-                {/* for drawing the paths; get the points from API 
-                and map them out on the app */}
-                {props.points.map((pt, index) => {
-                    return (
-                        <span
-                            key={index}
-                            className={`${pt.name} anchor`}
-                            style={{
-                                left: `${pt.x}%`,
-                                top: `${pt.y}%`,
-                                backgroundColor: 'red',
-                                width: '5px',
-                                height: '5px',
-                                zIndex: '2',
-                            }}
-                        ></span>
-                    )
-                })}
-
-                {paths.map((p, index) => {
-                    console.log("listofpaths ****** ", paths)
-                    console.log("path ****** ", p)
-                    return (
-                        <LineTo
-                            key={index}
-                            className="path"
-                            from={p[0]} to={p[1]}
-                            borderColor='#F7A072' borderWidth={6} zIndex={0}
-                        />
-                    )
-                })}
+                {   
+                    mounted && 
+                        lines.map((l, index) => {
+                            return (
+                                <span key={index}
+                                    style={{
+                                        position: 'absolute',
+                                        backgroundColor: 'red',
+                                        zIndex: '2',
+                                        top: `${l.y}%`,
+                                        left: `${l.x}%`,
+                                        height: `${l.h}%`,
+                                        width: `${l.w}%`,
+                                    }}></span>
+                            )
+                        })
+                }
 
                 {/* ----------------------------- */}
                 {/* all the codes about slot machines are in the SlotMachine folder */}
-                <SlotMachine />
+                <SlotMachine requestPath={requestPath} />
 
                 {/* img */}
                 <img className="floor-img"
-                    onLoad={onImgLoad} src={props.toggled ? img1 : img2} />
+                    onLoad={onImgLoad} src={img1} />
+
+                <p> {result} </p>
 
             </div>
 

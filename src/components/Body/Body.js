@@ -9,7 +9,6 @@ import { paths } from "../../API/fakedata";
 
 // wrapping everything in the screen 
 const Body = ({ }) => {
-    const [toggled, setToggled] = useState(true);
     const [points, setPoints] = useState([]);
 
     const [isSelected, setIsSelected] = useRecoilState(isDesSelected);
@@ -18,11 +17,6 @@ const Body = ({ }) => {
     const [listOfPaths, setListOfPaths] = useState([]);
     var tempPath = []; 
     var pathsArr = [];  
-
-    const switchFloor = () => {
-        console.log(toggled);
-        setToggled((state) => (state === true ? false : true));
-    }
 
     const navigate = () => {
         console.log(whichDes)
@@ -58,14 +52,14 @@ const Body = ({ }) => {
     }
 
     return (
-        <body>
+        <div>
 
             {/* fixed */}
             <span className='searchBar'>
                 <span className='searchBarWrapper'>
                     <input type="text" placeholder="search for a location..." />
                     <button>
-                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <i className="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </span>
                 {/* popular games */}
@@ -78,7 +72,6 @@ const Body = ({ }) => {
             </span>
 
             <Map 
-                toggled={toggled} 
                 listOfPaths={listOfPaths} 
                 points={points}
                 />
@@ -97,10 +90,7 @@ const Body = ({ }) => {
                 <button className='navigateBtn' onClick={navigate}> Navigate </button>
             </div>
 
-            {/* <button onClick={switchFloor} className="switchFloorBtn"> 
-                {toggled ? "Switch to Second Floor" : "Switch to First Floor"} 
-            </button> */}
-        </body>
+        </div>
 
     )
 }

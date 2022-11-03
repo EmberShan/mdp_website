@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState } from 'recoil';
 import { whichDestination, isDesSelected } from "../../recoil/atoms";
 
 
-const SlotMachine = () => {
+const SlotMachine = ({requestPath}) => {
 
     const [mounted, setMounted] = useState(true); // for api call
     const [data, setData] = useState([]);
@@ -13,45 +13,45 @@ const SlotMachine = () => {
     const [isSelected, setIsSelected] = useRecoilState(isDesSelected);
 
     const handleClick = (event, id) => {
-        setWhichDes(id); 
-        setIsSelected(true); 
-    }; 
+        setWhichDes(id);
+        setIsSelected(true);
+    };
 
     async function fetchAPI() {
         const response = await fetch('https://mdpcasinoapi.azurewebsites.net/api/banks');
         const fetchedData = await response.json();
-        if(!response.ok){
-            return response.statusText; 
+        if (!response.ok) {
+            return response.statusText;
         }
         return fetchedData;
     }
 
-    useEffect(() =>{
-        console.log("fetching data..."); 
+    useEffect(() => {
+        console.log("fetching data...");
         fetchAPI()
             .then((fetchedData) => {
-                setData(fetchedData); 
-                console.log(data);  
-                setMounted(true); 
+                setData(fetchedData);
+                console.log(data);
+                setMounted(true);
             })
             .catch((error => {
-                console.log(error); 
+                console.log(error);
             }));
-    },[]); 
+    }, []);
 
 
     return (
         <div>
-            {mounted ? 
+            {mounted ?
                 (data.map((d, index) => (
                     <span key={index} className={`${d.bankId} slotMachine marker`}
-                        style={{ 
-                                fontSize: '1.4rem', color: '#F7A072', 
-                                left: `${d.x}px`, top: `${d.y}px` 
-                            }}
-                        onClick={event => handleClick(event, d.bankId)}
-                    > 
-                        <i class="fa-solid fa-location-pin"></i> 
+                        style={{
+                            fontSize: '1.4rem', color: '#F7A072',
+                            left: `${d.x}px`, top: `${d.y}px`
+                        }}
+                        onClick={event => requestPath(event, d.x, d.y)}
+                    >
+                        <i className="fa-solid fa-location-pin"></i>
                     </span>
                 )))
                 : 'Data not fetched'
