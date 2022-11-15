@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from 'recoil';
-import { whichDestination, isDesSelected } from "../../recoil/atoms";
+import { gameName, isDesSelected } from "../../recoil/atoms";
 
 
-const SlotMachine = ({requestPath}) => {
+const SlotMachine = ({requestPath, sizeOfImg}) => {
 
     const [mounted, setMounted] = useState(true); // for api call
     const [data, setData] = useState([]);
 
     // getting the global state to set it to the one the user clicks 
-    const [whichDes, setWhichDes] = useRecoilState(whichDestination);
+    const [name, setName] = useRecoilState(gameName);
     const [isSelected, setIsSelected] = useRecoilState(isDesSelected);
 
-    const handleClick = (event, id) => {
-        setWhichDes(id);
+    const handleClick = (event, d) => {
+        setName(d); 
         setIsSelected(true);
     };
 
@@ -31,7 +31,7 @@ const SlotMachine = ({requestPath}) => {
         fetchAPI()
             .then((fetchedData) => {
                 setData(fetchedData);
-                console.log(data);
+                console.log(fetchedData);
                 setMounted(true);
             })
             .catch((error => {
@@ -47,11 +47,11 @@ const SlotMachine = ({requestPath}) => {
                     <span key={index} className={`${d.bankId} slotMachine marker`}
                         style={{
                             fontSize: '1.4rem', color: '#F7A072',
-                            left: `${d.x}px`, top: `${d.y}px`
+                            left: `${d.x / 638 * sizeOfImg[0]}px`, top: `${d.y / 668 * sizeOfImg[1]}px`
                         }}
-                        onClick={event => requestPath(event, d.x, d.y)}
+                        onClick={event => {handleClick(event, d.description); requestPath(event, d.x, d.y)}}
                     >
-                        <i className="fa-solid fa-location-pin"></i>
+                        <i className="fa-solid fa-location-pin"> </i>
                     </span>
                 )))
                 : 'Data not fetched'

@@ -4,9 +4,9 @@ import { atom } from 'recoil';
 
 // to store where the user clicks and 
 // to be used by all the componenets 
-export const whichDestination = atom({
-    key: 'whichDestination', 
-    default: 0, 
+export const gameName = atom({
+    key: 'gameName', 
+    default: "null", 
 });
 
 

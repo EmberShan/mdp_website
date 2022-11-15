@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import './Map.scss';
 import LineTo from 'react-lineto';
-
+import { useRecoilState } from 'recoil';
+import { isDesSelected, gameName } from '../../recoil/atoms';
 // displaying slot machine markers 
 import SlotMachine from '../SlotMachine/index';
 
@@ -16,8 +17,7 @@ const Map = (props) => {
 
     const [sizeOfImg, setSizeOfImg] = useState([0, 0]); //width, height 
 
-    const [paths, setPaths] = useState([]); //posX, posY 
-
+    const [isSelected, setIsSelected] = useRecoilState(isDesSelected);
 
     // detect the size of the image & load the markers 
     const onImgLoad = ({ target: img }) => {
@@ -30,8 +30,6 @@ const Map = (props) => {
 
     // put request 
     const [id, setId] = useState(1);
-    const [endX, setEndX] = useState(0); //x of user location 
-    const [endY, setEndY] = useState(0); //y of user location 
 
     const [input, setInput] = useState({
         device_id: 0,
@@ -47,6 +45,8 @@ const Map = (props) => {
     // the array that is used to draw the lines 
     const [lines, setLines] = useState([]);
 
+    const [name, setName] = useRecoilState(gameName);
+
     // ----------- requesting paths (PUT) -----------
     const requestPath = (event, endX, endY) => {
         setMounted(false);
@@ -59,7 +59,6 @@ const Map = (props) => {
         });
     };
     useEffect(() => {
-        console.log("put request", input);
         putData();
     }, [input]);
     async function putData() {
@@ -79,7 +78,6 @@ const Map = (props) => {
 
     // ----------- fetch the path data -----------
     useEffect(() => {
-        console.log("fetching path data...")
         pathData()
             .then((pathData) => {
                 cleanPathData(pathData);
@@ -95,7 +93,7 @@ const Map = (props) => {
             return response.statusText;
         }
         return fetchedData;
-    }; 
+    };
 
     // ----------- clean up the path data from backend -----------
     const cleanPathData = (arr) => {
@@ -103,12 +101,10 @@ const Map = (props) => {
         arr.forEach((a) => {
             pathPoints.push(a.split(" "));
         });
-        console.log("********start", pathPoints);
         var tempLines = [];
         // var obj = { x: 0, y: 0, w: 0, h: 0 }; //x and y are start point coord
         for (let i = 1; i < pathPoints.length; i++) {
             const obj = { x: 0, y: 0, w: 0, h: 0 }; //x and y are start point coord
-            console.log("start and end points", pathPoints[i - 1], pathPoints[i])
             // start point is pathPoints[i-1] and end point is pathPoints[i]
             const x1 = pathPoints[i - 1][0];
             const y1 = pathPoints[i - 1][1];
@@ -116,7 +112,7 @@ const Map = (props) => {
             const y2 = pathPoints[i][1];
 
             // and set height and width accordingly 
-            obj.x = x1 / 6.38; obj.y = y1 / 6.68;
+            obj.x = x1 / 6.38; obj.y = (y1 / 6.68) - 5;
             // determine if the line is horizontal or vertical 
             if (x2 - x1 === 0) {
                 obj.h = (y2 - y1) / 6.68;
@@ -126,15 +122,12 @@ const Map = (props) => {
                 obj.h = 1;
                 obj.w = (x2 - x1) / 6.38;
             };
-            console.log("******* the calculated line", obj)
             tempLines.push(obj);
-            console.log("******* lines array for rendering", tempLines);
         }
         setLines(tempLines);
     };
     useEffect(() => {
         setMounted(true);
-        console.log("lines", lines);
     }, [lines]);
 
 
@@ -179,8 +172,15 @@ const Map = (props) => {
                     <i className="fa-solid fa-location-pin"></i>
                 </span>
 
-                {   
-                    mounted && 
+                {/* ----------------------------- */}
+                {/* all the codes about slot machines are in the SlotMachine folder */}
+                <SlotMachine requestPath={requestPath} sizeOfImg={sizeOfImg} />
+
+                {/* img */}
+                <span>
+                    {/* the paths */}
+                    {
+                        isSelected && mounted && 
                         lines.map((l, index) => {
                             return (
                                 <span key={index}
@@ -195,15 +195,10 @@ const Map = (props) => {
                                     }}></span>
                             )
                         })
-                }
-
-                {/* ----------------------------- */}
-                {/* all the codes about slot machines are in the SlotMachine folder */}
-                <SlotMachine requestPath={requestPath} />
-
-                {/* img */}
-                <img className="floor-img"
-                    onLoad={onImgLoad} src={img1} />
+                    }
+                    <img className="floor-img"
+                        onLoad={onImgLoad} src={img1} />
+                </span>
 
                 <p> {result} </p>
 
