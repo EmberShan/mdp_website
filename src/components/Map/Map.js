@@ -112,7 +112,7 @@ const Map = (props) => {
             const y2 = pathPoints[i][1];
 
             // and set height and width accordingly 
-            obj.x = x1 / 6.38; obj.y = (y1 / 6.68) - 5;
+            obj.x = x1 / 6.38; obj.y = (y1 / 6.68);
             // determine if the line is horizontal or vertical 
             if (x2 - x1 === 0) {
                 obj.h = (y2 - y1) / 6.68;
@@ -126,6 +126,7 @@ const Map = (props) => {
         }
         setLines(tempLines);
     };
+    // this ensures to only draw the lines after the putrequest, fetch, and after the data is cleaned up 
     useEffect(() => {
         setMounted(true);
     }, [lines]);
@@ -167,20 +168,29 @@ const Map = (props) => {
             {/* this div is to limit the markers within the map img */}
             <div className="map" id='mapID'>
 
-                {/* dots / map markers */}
-                <span className="marker" style={{ fontSize: '2rem', left: `${startX}px`, top: `${startY}px`, color: 'red' }}>
-                    <i className="fa-solid fa-location-pin"></i>
-                </span>
+                {/* the marker representing the user location */}
+                {
+                    props.floor ?
+                        <span className="marker" style={{ fontSize: '2rem', left: `${startX}px`, top: `${startY}px`, color: 'red' }}>
+                            <i className="fa-solid fa-location-pin"></i>
+                        </span>
+                    : <></>
+                }
+
 
                 {/* ----------------------------- */}
                 {/* all the codes about slot machines are in the SlotMachine folder */}
-                <SlotMachine requestPath={requestPath} sizeOfImg={sizeOfImg} />
 
-                {/* img */}
+                {/* the map containing the slot machines, paths, and the map image */}
                 <span>
+                    {
+                        props.floor ? <SlotMachine requestPath={requestPath} sizeOfImg={sizeOfImg} />
+                            : <></>
+                    }
+
                     {/* the paths */}
                     {
-                        isSelected && mounted && 
+                        isSelected && mounted && props.floor &&
                         lines.map((l, index) => {
                             return (
                                 <span key={index}
@@ -197,10 +207,8 @@ const Map = (props) => {
                         })
                     }
                     <img className="floor-img"
-                        onLoad={onImgLoad} src={img1} />
+                        onLoad={onImgLoad} src={props.floor ? img1 : img2} />
                 </span>
-
-                <p> {result} </p>
 
             </div>
 
