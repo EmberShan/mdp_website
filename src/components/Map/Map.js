@@ -58,6 +58,7 @@ const Map = (props) => {
             end_y: endY
         });
     };
+    // after setting the input for the put request 
     useEffect(() => {
         putData();
     }, [input]);
@@ -141,7 +142,7 @@ const Map = (props) => {
             return response.statusText;
         }
         return fetchedData;
-    }
+    }; 
     useEffect(() => {
         const interval = setInterval(() => {
             userData()
@@ -152,7 +153,7 @@ const Map = (props) => {
                     setStartY(
                         Math.min(sizeOfImg[1], Math.max(0, userData.currentY))
                     )
-                    console.log(startX, startY);
+                    console.log("user location in pixels", startX / sizeOfImg[0] * 638, startY / sizeOfImg[1] * 668);
                 })
                 .catch((error => {
                     console.log(error);

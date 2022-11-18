@@ -53,15 +53,14 @@ const Body = ({ }) => {
 
             <div className={`${isSelected ? `` : `hidden`} popover`}>
                 <div className='desInfo'>
-                    {/* <h3> {name} </h3> */}
-                    <h3> GameName </h3>
+                    <h5> {name} </h5>
                 </div>
 
                 <a className='closeBtn' onClick={close}>
                     <span></span>
                     <span></span>
                 </a>
-                <button className='navigateBtn'> Navigate </button>
+                {/* <button className='navigateBtn'> Navigate </button> */}
             </div>
 
             <div className='buttonGroup'>
