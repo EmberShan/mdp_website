@@ -82,6 +82,7 @@ const Map = (props) => {
         pathData()
             .then((pathData) => {
                 cleanPathData(pathData);
+                console.log("data from API", pathData)
             })
             .catch((error => {
                 console.log(error);
@@ -111,17 +112,23 @@ const Map = (props) => {
             const y1 = pathPoints[i - 1][1];
             const x2 = pathPoints[i][0];
             const y2 = pathPoints[i][1];
-
-            // and set height and width accordingly 
-            obj.x = x1 / 6.38; obj.y = (y1 / 6.68);
             // determine if the line is horizontal or vertical 
-            if (x2 - x1 === 0) {
-                obj.h = (y2 - y1) / 6.68;
+            // and set height and width accordingly 
+            if (x2 === x1) {
+                obj.h = Math.abs(Math.floor((y2 - y1) / 6.68)) + 0.3;
                 obj.w = 1;
+                obj.x = Math.floor(x1 / 6.38);
+                // determine the starting point of the line
+                // obj.y = (y1 > y2) ? (Math.floor(y1 / 6.68)) : (Math.floor(y1 / 6.68)); 
+                obj.y = Math.min(y1, y2) / 6.68; 
             }
-            else if (y2 - y1 === 0) {
+            else if (y2 === y1) {
                 obj.h = 1;
-                obj.w = (x2 - x1) / 6.38;
+                obj.w = Math.abs(Math.floor((x2 - x1) / 6.38)) + 0.3;
+                obj.y = Math.floor(y1 / 6.68);
+                // determine the starting point of the line
+                // obj.x = (x1 > x2) ? (Math.floor(x2 / 6.38)) : (Math.floor(x1 / 6.38)); 
+                obj.x = Math.min(x1, x2) / 6.38; 
             };
             tempLines.push(obj);
         }
@@ -130,6 +137,7 @@ const Map = (props) => {
     // this ensures to only draw the lines after the putrequest, fetch, and after the data is cleaned up 
     useEffect(() => {
         setMounted(true);
+        console.log("------------lines-----------", lines);
     }, [lines]);
 
 
@@ -142,7 +150,7 @@ const Map = (props) => {
             return response.statusText;
         }
         return fetchedData;
-    }; 
+    };
     useEffect(() => {
         const interval = setInterval(() => {
             userData()
@@ -175,7 +183,7 @@ const Map = (props) => {
                         <span className="marker" style={{ fontSize: '2rem', left: `${startX}px`, top: `${startY}px`, color: 'red' }}>
                             <i className="fa-solid fa-location-pin"></i>
                         </span>
-                    : <></>
+                        : <></>
                 }
 
 
@@ -203,6 +211,7 @@ const Map = (props) => {
                                         left: `${l.x}%`,
                                         height: `${l.h}%`,
                                         width: `${l.w}%`,
+                                        borderRadius: '20px', 
                                     }}></span>
                             )
                         })

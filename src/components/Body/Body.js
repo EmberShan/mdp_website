@@ -40,10 +40,10 @@ const Body = ({ }) => {
                 </span>
                 {/* popular games */}
                 <span className='dropdownMenu'>
-                    <span> <p> Poker </p> </span>
-                    <span> <p> BlackJack </p> </span>
-                    <span> <p> American Roulette </p> </span>
-                    <span> <p> Game King </p> </span>
+                    <span> <p> 50 Dragons </p> </span>
+                    <span> <p> Heaven and Earth </p> </span>
+                    <span> <p> Selexion #1 </p> </span>
+                    <span> <p> Fortunes Way </p> </span>
                 </span>
             </span>
 
