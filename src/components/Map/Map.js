@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import './Map.scss';
 import LineTo from 'react-lineto';
-import { useRecoilState } from 'recoil';
-import { isDesSelected, gameName } from '../../recoil/atoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { isDesSelected, gameName, gameSearched } from '../../recoil/atoms';
 // displaying slot machine markers 
 import SlotMachine from '../SlotMachine/index';
 
@@ -18,6 +18,7 @@ const Map = (props) => {
     const [sizeOfImg, setSizeOfImg] = useState([0, 0]); //width, height 
 
     const [isSelected, setIsSelected] = useRecoilState(isDesSelected);
+    const [searchKeyword, _] = useRecoilState(gameSearched);
 
     // detect the size of the image & load the markers 
     const onImgLoad = ({ target: img }) => {
@@ -120,7 +121,7 @@ const Map = (props) => {
                 obj.x = Math.floor(x1 / 6.38);
                 // determine the starting point of the line
                 // obj.y = (y1 > y2) ? (Math.floor(y1 / 6.68)) : (Math.floor(y1 / 6.68)); 
-                obj.y = Math.min(y1, y2) / 6.68; 
+                obj.y = Math.min(y1, y2) / 6.68;
             }
             else if (y2 === y1) {
                 obj.h = 1;
@@ -128,7 +129,7 @@ const Map = (props) => {
                 obj.y = Math.floor(y1 / 6.68);
                 // determine the starting point of the line
                 // obj.x = (x1 > x2) ? (Math.floor(x2 / 6.38)) : (Math.floor(x1 / 6.38)); 
-                obj.x = Math.min(x1, x2) / 6.38; 
+                obj.x = Math.min(x1, x2) / 6.38;
             };
             tempLines.push(obj);
         }
@@ -139,6 +140,11 @@ const Map = (props) => {
         setMounted(true);
         console.log("------------lines-----------", lines);
     }, [lines]);
+
+    // if another search keyword is chosen, remove the paths
+    useEffect(() => {
+        setMounted(false);
+    }, [searchKeyword]); 
 
 
     // -------- user location --------
@@ -193,7 +199,8 @@ const Map = (props) => {
                 {/* the map containing the slot machines, paths, and the map image */}
                 <span>
                     {
-                        props.floor ? <SlotMachine requestPath={requestPath} sizeOfImg={sizeOfImg} />
+                        (props.floor && (searchKeyword !== 'null')) ?
+                            <SlotMachine requestPath={requestPath} sizeOfImg={sizeOfImg} />
                             : <></>
                     }
 
@@ -211,7 +218,7 @@ const Map = (props) => {
                                         left: `${l.x}%`,
                                         height: `${l.h}%`,
                                         width: `${l.w}%`,
-                                        borderRadius: '20px', 
+                                        borderRadius: '20px',
                                     }}></span>
                             )
                         })

@@ -9,6 +9,12 @@ export const gameName = atom({
     default: "null", 
 });
 
+// game name selected by the user
+export const gameSearched = atom({
+    key: 'gameSearched', 
+    default: "null", 
+});
+
 
 // if the user selects any slot machines 
 export const isDesSelected = atom({
