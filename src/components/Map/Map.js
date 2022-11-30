@@ -14,6 +14,8 @@ const img2 = require('../../imgs/second_floor.png');
 const Map = (props) => {
     const [startX, setStartX] = useState(0); //x of user location 
     const [startY, setStartY] = useState(0); //y of user location 
+    const [endX, setEndX] = useState(0); //y of destination
+    const [endY, setEndY] = useState(0); //y of destination
 
     const [sizeOfImg, setSizeOfImg] = useState([0, 0]); //width, height 
 
@@ -50,6 +52,8 @@ const Map = (props) => {
 
     // ----------- requesting paths (PUT) -----------
     const requestPath = (event, endX, endY) => {
+        setEndX(endX); 
+        setEndY(endY); 
         setMounted(false);
         setInput({
             device_id: id,
@@ -59,8 +63,20 @@ const Map = (props) => {
             end_y: endY
         });
     };
-    // after setting the input for the put request 
+    // set the input for put request whenever the start x and y updated
     useEffect(() => {
+        setInput({
+            device_id: id,
+            start_x: startX,
+            start_y: startY,
+            end_x: endX,
+            end_y: endY
+        });
+    }, [startX, startY]);
+    // send put request whenever the input is changed 
+    // (when path is requested by the user or when x and y are changed)
+    useEffect(() => {
+        console.log('put request'); 
         putData();
     }, [input]);
     async function putData() {
@@ -144,13 +160,13 @@ const Map = (props) => {
     // if another search keyword is chosen, remove the paths
     useEffect(() => {
         setMounted(false);
-    }, [searchKeyword]); 
+    }, [searchKeyword]);
 
 
     // -------- user location --------
     // for fetching user location data from the API 
     async function userData() {
-        const response = await fetch(`https://mdpcasinoapi.azurewebsites.net/api/users/1`);
+        const response = await fetch(`https://mdpcasinoapi.azurewebsites.net/api/users/${id}`);
         const fetchedData = await response.json();
         if (!response.ok) {
             return response.statusText;
@@ -167,7 +183,8 @@ const Map = (props) => {
                     setStartY(
                         Math.min(sizeOfImg[1], Math.max(0, userData.currentY))
                     )
-                    console.log("user location in pixels", startX / sizeOfImg[0] * 638, startY / sizeOfImg[1] * 668);
+                    console.log("user location in pixels",
+                        startX, startY);
                 })
                 .catch((error => {
                     console.log(error);
@@ -186,7 +203,7 @@ const Map = (props) => {
                 {/* the marker representing the user location */}
                 {
                     props.floor ?
-                        <span className="marker" style={{ fontSize: '2rem', left: `${startX}px`, top: `${startY}px`, color: 'red' }}>
+                        <span className="marker" style={{ fontSize: '2rem', left: `${startX * sizeOfImg[0] / 638}px`, top: `${startY * sizeOfImg[1] / 668}px`, color: 'red' }}>
                             <i className="fa-solid fa-location-pin"></i>
                         </span>
                         : <></>

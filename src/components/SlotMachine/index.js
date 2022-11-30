@@ -32,7 +32,6 @@ const SlotMachine = ({ requestPath, sizeOfImg }) => {
         fetchAPI()
             .then((fetchedData) => {
                 setData(fetchedData);
-                console.log(fetchedData);
                 setMounted(true);
             })
             .catch((error => {
@@ -46,7 +45,7 @@ const SlotMachine = ({ requestPath, sizeOfImg }) => {
             {mounted ?
                 (data.map((d, index) => (
                     (d.description.toLowerCase() === searchKeyword.toLowerCase()) || (searchKeyword === 'all') ?
-                        <span key={index} className={`${d.bankId} slotMachine marker`}
+                        <span key={d.bankId} className={`${d.bankId} slotMachine marker`}
                             style={{
                                 fontSize: '1.4rem', color: '#F7A072',
                                 left: `${d.x / 638 * sizeOfImg[0]}px`, top: `${d.y / 668 * sizeOfImg[1]}px`
@@ -55,7 +54,7 @@ const SlotMachine = ({ requestPath, sizeOfImg }) => {
                         >
                             <i className="fa-solid fa-location-pin"> </i>
                         </span>
-                        : <></>
+                        : <span key={d.bankId}></span>
                 )))
                 : 'Data not fetched'
             }

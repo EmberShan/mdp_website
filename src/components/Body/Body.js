@@ -44,8 +44,6 @@ const Body = ({ }) => {
         setPlaceHolder(n); //set placeholder text in the search bar
         setSearchKeyword(n); //set atom of game searched to be used in other components
         closeSearchMenu(); //close the search result menu 
-        // debugging 
-        console.log("name here", searchKeyword);
     };
 
     // close the popover when search keyword is changed
@@ -105,7 +103,7 @@ const Body = ({ }) => {
                     {/* <button className='navigateBtn'> Navigate </button> */}
                 </div>
 
-                <div className='buttonGroup'>
+                <div className='buttonGroup' style={{zIndex: '1000', }}>
                     <span
                         className={`${floor ? `` : `active`} second-floor-btn`}
                         onClick={switchToFirstFloor}> 2F </span>
@@ -117,7 +115,7 @@ const Body = ({ }) => {
                 <span
                     className='locate-btn'
                     style={{ fontSize: '2rem', }}>
-                    <i class="fa-solid fa-location-arrow"></i>
+                    <i className="fa-solid fa-location-arrow"></i>
                 </span>
             </div>
 
