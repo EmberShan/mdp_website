@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/mdp_website/static/css/main.04a55675.css",
-    "main.js": "/mdp_website/static/js/main.f50aafb5.js",
+    "main.css": "/mdp_website/static/css/main.71db573c.css",
+    "main.js": "/mdp_website/static/js/main.dc369f73.js",
     "static/js/787.226f4826.chunk.js": "/mdp_website/static/js/787.226f4826.chunk.js",
     "static/media/fa-solid-900.ttf": "/mdp_website/static/media/fa-solid-900.6aef0a3f12850e081374.ttf",
     "static/media/fa-brands-400.ttf": "/mdp_website/static/media/fa-brands-400.8dddb1b4cd1f65b03167.ttf",
@@ -13,12 +13,12 @@
     "static/media/fa-v4compatibility.ttf": "/mdp_website/static/media/fa-v4compatibility.83a9e0357eddeb41b08b.ttf",
     "static/media/fa-v4compatibility.woff2": "/mdp_website/static/media/fa-v4compatibility.2e77423e3ed431908eda.woff2",
     "index.html": "/mdp_website/index.html",
-    "main.04a55675.css.map": "/mdp_website/static/css/main.04a55675.css.map",
-    "main.f50aafb5.js.map": "/mdp_website/static/js/main.f50aafb5.js.map",
+    "main.71db573c.css.map": "/mdp_website/static/css/main.71db573c.css.map",
+    "main.dc369f73.js.map": "/mdp_website/static/js/main.dc369f73.js.map",
     "787.226f4826.chunk.js.map": "/mdp_website/static/js/787.226f4826.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.04a55675.css",
-    "static/js/main.f50aafb5.js"
+    "static/css/main.71db573c.css",
+    "static/js/main.dc369f73.js"
   ]
 }
