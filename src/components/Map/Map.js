@@ -52,8 +52,8 @@ const Map = (props) => {
 
     // ----------- requesting paths (PUT) -----------
     const requestPath = (event, endX, endY) => {
-        setEndX(endX); 
-        setEndY(endY); 
+        setEndX(endX);
+        setEndY(endY);
         setMounted(false);
         setInput({
             device_id: id,
@@ -76,7 +76,7 @@ const Map = (props) => {
     // send put request whenever the input is changed 
     // (when path is requested by the user or when x and y are changed)
     useEffect(() => {
-        console.log('put request'); 
+        console.log('put request');
         putData();
     }, [input]);
     async function putData() {
@@ -241,7 +241,9 @@ const Map = (props) => {
                         })
                     }
                     <img className="floor-img"
-                        onLoad={onImgLoad} src={props.floor ? img1 : img2} />
+                        onLoad={onImgLoad} src={props.floor ? img1 : img2}
+                        style={{}}
+                    />
                 </span>
 
             </div>

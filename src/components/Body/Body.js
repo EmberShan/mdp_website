@@ -17,6 +17,7 @@ const Body = ({ }) => {
     const [searchKeyword, setSearchKeyword] = useRecoilState(gameSearched); 
 
     const [floor, setFloor] = useState(true); //true is first floor, false is second  
+    const [scale, setScale] = useState(1); //scale of the map, controlled by zoom in and out buttons 
 
     // close the popover that displays the game name
     const close = () => {
@@ -50,6 +51,15 @@ const Body = ({ }) => {
     useEffect(() => {
         close();
     }, [searchKeyword]); 
+
+
+    // zoom in or out 
+    const zoomIn = () => {
+        
+    };
+    const zoomOut = () => {
+        
+    };
 
 
     return (
@@ -87,10 +97,13 @@ const Body = ({ }) => {
             </span>
 
             <div>
+                {/* map with the markers */}
                 <Map
                     floor={floor}
+                    scale={scale}
                 />
 
+                {/* popover that displays the game name */}
                 <div className={`${isSelected ? `` : `hidden`} popover`}>
                     <div className='desInfo'>
                         <h5> {name} </h5>
@@ -103,6 +116,17 @@ const Body = ({ }) => {
                     {/* <button className='navigateBtn'> Navigate </button> */}
                 </div>
 
+                {/* buttons that display floors */}
+                <div className='zoomButtonGroup' style={{zIndex: '1000', }}>
+                    <span
+                        className='zoomin'
+                        onClick={zoomIn}> <i class="fa-solid fa-plus"></i> </span>
+                    <span
+                        className='zoomout'
+                        onClick={zoomOut}> <i class="fa-solid fa-minus"></i> </span>
+                </div>
+                
+                {/* buttons that display floors */}
                 <div className='buttonGroup' style={{zIndex: '1000', }}>
                     <span
                         className={`${floor ? `` : `active`} second-floor-btn`}
@@ -112,6 +136,7 @@ const Body = ({ }) => {
                         onClick={switchToSecondFloor}> 1F </span>
                 </div>
 
+                {/* locate button for locating the user location */}
                 <span
                     className='locate-btn'
                     style={{ fontSize: '2rem', }}>
