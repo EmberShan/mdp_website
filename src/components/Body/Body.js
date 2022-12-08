@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import './Body.scss';
 import Map from '../Map/Map';
 import { useRecoilState } from 'recoil';
-import { isDesSelected, gameName, gameSearched } from '../../recoil/atoms';
+import { isDesSelected, gameName, gameSearched, simulateFlag } from '../../recoil/atoms';
 
 // wrapping everything in the screen 
 const Body = ({ }) => {
@@ -15,6 +15,7 @@ const Body = ({ }) => {
     const [searched, setSearched] = useState(false);
     const [placeHolder, setPlaceHolder] = useState('search for a location...');
     const [searchKeyword, setSearchKeyword] = useRecoilState(gameSearched); 
+    const [simulate, setSimulate] = useRecoilState(simulateFlag); 
 
     const [floor, setFloor] = useState(true); //true is first floor, false is second  
     const [scale, setScale] = useState(1); //scale of the map, controlled by zoom in and out buttons 
@@ -53,12 +54,9 @@ const Body = ({ }) => {
     }, [searchKeyword]); 
 
 
-    // zoom in or out 
-    const zoomIn = () => {
-        
-    };
-    const zoomOut = () => {
-        
+    // start the simulation 
+    const startSimulation = () => {
+        setSimulate(!simulate); 
     };
 
 
@@ -74,7 +72,7 @@ const Body = ({ }) => {
                     : <></>
             }
 
-            {/* fixed */}
+            {/* fixed seearch bar */}
             <span className='searchBar'>
                 <span className='searchBarWrapper' onClick={openSearchMenu}>
                     <input type="text" placeholder={placeHolder} />
@@ -113,18 +111,22 @@ const Body = ({ }) => {
                         <span></span>
                         <span></span>
                     </a>
-                    {/* <button className='navigateBtn'> Navigate </button> */}
+                    <button className='navigateBtn' onClick={startSimulation}> 
+                    {
+                        simulate ? "Exit" : "Navigate"
+                    } 
+                    </button>
                 </div>
 
-                {/* buttons that display floors */}
-                <div className='zoomButtonGroup' style={{zIndex: '1000', }}>
+                {/* buttons that can zoom in and out */}
+                {/* <div className='zoomButtonGroup' style={{zIndex: '1000', }}>
                     <span
                         className='zoomin'
                         onClick={zoomIn}> <i class="fa-solid fa-plus"></i> </span>
                     <span
                         className='zoomout'
                         onClick={zoomOut}> <i class="fa-solid fa-minus"></i> </span>
-                </div>
+                </div> */}
                 
                 {/* buttons that display floors */}
                 <div className='buttonGroup' style={{zIndex: '1000', }}>

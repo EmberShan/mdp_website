@@ -21,3 +21,9 @@ export const isDesSelected = atom({
     key: 'isDesSelected', 
     default: false, 
 });
+
+// for simulation 
+export const simulateFlag = atom({
+    key: 'simulateFlag', 
+    default: false, 
+});

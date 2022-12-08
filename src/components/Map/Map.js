@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import './Map.scss';
 import LineTo from 'react-lineto';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { isDesSelected, gameName, gameSearched } from '../../recoil/atoms';
+import { isDesSelected, gameName, gameSearched, simulateFlag } from '../../recoil/atoms';
 // displaying slot machine markers 
 import SlotMachine from '../SlotMachine/index';
 
@@ -21,6 +21,8 @@ const Map = (props) => {
 
     const [isSelected, setIsSelected] = useRecoilState(isDesSelected);
     const [searchKeyword, _] = useRecoilState(gameSearched);
+
+    const [simulate, setSimulate] = useRecoilState(simulateFlag); 
 
     // detect the size of the image & load the markers 
     const onImgLoad = ({ target: img }) => {
@@ -162,11 +164,10 @@ const Map = (props) => {
         setMounted(false);
     }, [searchKeyword]);
 
-
     // -------- user location --------
     // for fetching user location data from the API 
     async function userData() {
-        const response = await fetch(`https://mdpcasinoapi.azurewebsites.net/api/users/${id}`);
+        const response = await fetch("https://mdpcasinoapi.azurewebsites.net/api/simulations/1");
         const fetchedData = await response.json();
         if (!response.ok) {
             return response.statusText;
@@ -174,24 +175,59 @@ const Map = (props) => {
         return fetchedData;
     };
     useEffect(() => {
-        const interval = setInterval(() => {
-            userData()
-                .then((userData) => {
-                    setStartX(
-                        Math.min(sizeOfImg[0], Math.max(0, userData.currentX))
-                    )
-                    setStartY(
-                        Math.min(sizeOfImg[1], Math.max(0, userData.currentY))
-                    )
-                    console.log("user location in pixels",
-                        startX, startY);
-                })
-                .catch((error => {
-                    console.log(error);
-                }));
-        }, 1000);
-        return () => clearInterval(interval);
-    }, [startX, startY, sizeOfImg]);
+        console.log(simulate); 
+        if (simulate) {
+            const interval = setInterval(() => {
+                userData()
+                    .then((userData) => {
+                        setStartX(userData.x)
+                        setStartY(userData.y)
+                        // setStartX(
+                        //     Math.min(sizeOfImg[0], Math.max(0, userData.x))
+                        // )
+                        // setStartY(
+                        //     Math.min(sizeOfImg[1], Math.max(0, userData.y))
+                        // )
+                        console.log("user location in pixels",
+                            startX, startY);
+                    })
+                    .catch((error => {
+                        console.log(error);
+                    }));
+            }, 1000);
+            return () => clearInterval(interval);
+        }
+    }, [startX, startY, sizeOfImg, simulate]);
+
+    // -------- user location --------
+    // for fetching user location data from the API 
+    // async function userData() {
+    //     const response = await fetch(`https://mdpcasinoapi.azurewebsites.net/api/users/${id}`);
+    //     const fetchedData = await response.json();
+    //     if (!response.ok) {
+    //         return response.statusText;
+    //     }
+    //     return fetchedData;
+    // };
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         userData()
+    //             .then((userData) => {
+    //                 setStartX(
+    //                     Math.min(sizeOfImg[0], Math.max(0, userData.currentX))
+    //                 )
+    //                 setStartY(
+    //                     Math.min(sizeOfImg[1], Math.max(0, userData.currentY))
+    //                 )
+    //                 console.log("user location in pixels",
+    //                     startX, startY);
+    //             })
+    //             .catch((error => {
+    //                 console.log(error);
+    //             }));
+    //     }, 1000);
+    //     return () => clearInterval(interval);
+    // }, [startX, startY, sizeOfImg]);
 
 
     return (
@@ -242,7 +278,6 @@ const Map = (props) => {
                     }
                     <img className="floor-img"
                         onLoad={onImgLoad} src={props.floor ? img1 : img2}
-                        style={{}}
                     />
                 </span>
 
